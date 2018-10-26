@@ -129,7 +129,7 @@ RUN set -xe; \
 		"; \
 	fi; \
 	apt-get update; \
-	apt-get install -y --no-install-recommends $fetchDeps; \
+	apt-get install -y --no-install-recommends nano $fetchDeps; \
 	rm -rf /var/lib/apt/lists/*; \
 	\
 	mkdir -p /usr/src; \
@@ -208,6 +208,9 @@ RUN set -eux; \
 		--with-curl \
 		--with-libedit \
 		--with-openssl \
+                --with-pdo-mysql \
+                --with-mysql \
+                --with-mysqli \
 		--with-zlib \
 		\
 # bundled pcre does not support JIT on s390x
@@ -245,6 +248,7 @@ RUN set -eux; \
 	\
 # https://github.com/docker-library/php/issues/443
 	pecl update-channels; \
+        a2enmod rewrite; \
 	rm -rf /tmp/pear ~/.pearrc
 
 COPY docker-php-ext-* docker-php-entrypoint /usr/local/bin/
